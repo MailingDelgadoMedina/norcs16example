@@ -1,19 +1,47 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import Tasks from './Tasks'; // Import the Tasks component
 
 function Home() {
-
-//     Changes made:
-// useRef Hook: Instead of document.getElementById, I used useRef to manage the dialog element, which is a cleaner approach in React.
-// Semantic Input Types: I added placeholders for the input fields to provide better user guidance.
-// useEffect for Future Enhancements: If you need to add more complex state or lifecycle methods later, useEffect and useState can be used for managing form data or handling submissions.
   const taskWindowRef = useRef(null);
 
+  // States to manage form inputs
+  const [taskName, setTaskName] = useState('');
+  const [taskDetails, setTaskDetails] = useState('');
+  const [taskAssignees, setTaskAssignees] = useState('');
+  const [taskDate, setTaskDate] = useState('');
+  const [taskTime, setTaskTime] = useState('');
+  const [tasks, setTasks] = useState([]); // State to manage task list
+
+  // Function to open the task dialog
   function OpenTaskWindow() {
     taskWindowRef.current.showModal();
   }
 
+  // Function to close the task dialog
   function CloseTaskWindow() {
     taskWindowRef.current.close();
+  }
+
+  // Function to handle task submission
+  function handleSubmitTask() {
+    const newTask = {
+      name: taskName,
+      details: taskDetails,
+      assignees: taskAssignees,
+      date: taskDate,
+      time: taskTime,
+    };
+
+    setTasks([...tasks, newTask]);
+
+    // Clear inputs
+    setTaskName('');
+    setTaskDetails('');
+    setTaskAssignees('');
+    setTaskDate('');
+    setTaskTime('');
+
+    CloseTaskWindow();
   }
 
   return (
@@ -24,26 +52,49 @@ function Home() {
 
       <dialog id="taskWindow" ref={taskWindowRef}>
         <h1>Enter Your Task</h1>
-        <label>Task Name:</label>
-        <input type="text" placeholder="Enter task name" />
-        
-        <label>Task Details:</label>
-        <input type="text" placeholder="Enter task details" />
-        
-        <label>Task Assignees:</label>
-        <input type="text" placeholder="Enter task assignees" />
-        
-        <label>Task Date:</label>
-        <input type="date" /> <input type="time" />
-        
-        <label>Task Due:</label>
-        <input type="date" /> <input type="time" />
-        
-        <br />
-        <button onClick={CloseTaskWindow}>Submit Task</button>
-      </dialog>
-    </main>
+        <p>Task Name:</p>
+        <input
+          type="text"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          placeholder="Enter task name"
+        />
 
+        <p>Task Details:</p>
+        <input
+          type="text"
+          value={taskDetails}
+          onChange={(e) => setTaskDetails(e.target.value)}
+          placeholder="Enter task details"
+        />
+
+        <p>Task Assignees:</p>
+        <input
+          type="text"
+          value={taskAssignees}
+          onChange={(e) => setTaskAssignees(e.target.value)}
+          placeholder="Enter task assignees"
+        />
+
+        <p>Task Date:</p>
+        <input
+          type="date"
+          value={taskDate}
+          onChange={(e) => setTaskDate(e.target.value)}
+        />
+        <input
+          type="time"
+          value={taskTime}
+          onChange={(e) => setTaskTime(e.target.value)}
+        />
+
+        <br />
+        <button onClick={handleSubmitTask}>Submit Task</button>
+      </dialog>
+
+      {/* Display Tasks */}
+      <Tasks tasks={tasks} />
+    </main>
   );
 }
 
