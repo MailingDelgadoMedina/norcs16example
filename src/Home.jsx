@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-function Main() {
+function Home() {
 
 //     Changes made:
 // useRef Hook: Instead of document.getElementById, I used useRef to manage the dialog element, which is a cleaner approach in React.
@@ -47,4 +47,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default Home;
