@@ -5,7 +5,7 @@ function Home() {
   const taskWindowRef = useRef(null);
 
   // States to manage form inputs
-  const [taskName, setTaskName] = useState('');
+  const [taskName, setTaskName] = useState(''); // hooks to manage state and is a substitute for getElementById
   const [taskDetails, setTaskDetails] = useState('');
   const [taskAssignees, setTaskAssignees] = useState('');
   const [taskDate, setTaskDate] = useState('');
@@ -56,7 +56,7 @@ function Home() {
         <input
           type="text"
           value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
+          onChange={(e) => setTaskName(e.target.value)} //event listener or handler react version
           placeholder="Enter task name"
         />
 
